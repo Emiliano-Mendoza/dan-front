@@ -1,0 +1,33 @@
+.deletebtn {
+    float: right;
+    color: #ff2000; 
+  }
+#guardar{
+  margin-top: 10px;
+}
+#agregar{
+  display: block;
+  margin-top: 10px;
+  margin-left: auto;
+}
+#obras-agregadas{
+  width: 30%;
+  font-size: 12px;
+  margin-left: auto;
+  margin-top: 5px;
+}
+
+.obras{
+  margin-top: 20px;
+}
+select{
+  display: block;
+  width: 50%;
+  margin-right: auto;
+  padding: 5px;
+}
+
+p{
+  margin-bottom: 5px;
+  margin-top: 7px;
+}
