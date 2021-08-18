@@ -1,7 +1,14 @@
 .deletebtn {
-    float: right;
-    color: #ff2000; 
-  }
+    float: right; 
+    font-size: 12px;
+}
+.agregar-obra-button{
+  float: right;
+  margin-top: 10px;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
 #guardar{
   margin-top: 10px;
 }
@@ -31,3 +38,11 @@ p{
   margin-bottom: 5px;
   margin-top: 7px;
 }
+
+.list-group-item{
+  
+  border: 1px solid blue;
+}
+
+
+

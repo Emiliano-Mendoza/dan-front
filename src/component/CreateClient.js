@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 export default class CreateUser extends Component {
 
@@ -26,7 +29,10 @@ export default class CreateUser extends Component {
     }
 
     async componentDidMount() {
-        this.getClients();
+        if(!cookies.get('username')){
+            window.location.href="./";
+        }else{this.getClients(); }
+         
     }
 
     onChangeRazonSocial = (e) => {
@@ -137,6 +143,8 @@ export default class CreateUser extends Component {
         this.getClients();
     }
 
+
+
     render() {
         return (
             <div className="row">
@@ -146,11 +154,11 @@ export default class CreateUser extends Component {
                         <form onSubmit={this.onSubmit}>
                             <div className="form-group">
                                 <h6>Razón Social:</h6>
-                                <input type='text' className="form-control" onChange={this.onChangeRazonSocial} value={this.state.razonSocial} />
+                                <input type='text' className="form-control" onChange={this.onChangeRazonSocial} value={this.state.razonSocial} required/>
                                 <h6>Cuit:</h6>
-                                <input type='text' className="form-control" onChange={this.onChangeCuit} value={this.state.cuit} />
+                                <input type='text' className="form-control" onChange={this.onChangeCuit} value={this.state.cuit} required/>
                                 <h6>E-mail:</h6>
-                                <input type='email' className="form-control" onChange={this.onChangeMail} value={this.state.mail} />
+                                <input type='email' className="form-control" onChange={this.onChangeMail} value={this.state.mail} required/>
 
                                 <div>
                                     <h4 className="obras">Obras:</h4>
@@ -171,7 +179,7 @@ export default class CreateUser extends Component {
                                     <p>Direccion:</p>
                                     <input type='text' className="form-control" onChange={this.onChangeDireccionObra} value={this.state.direccion} />
                                     <p>Superficie: </p>
-                                    <input type="number" step="1" className="form-control" onChange={this.onChangeSuperficieObra} value={this.state.superficie} />
+                                    <input type="number" step="1" className="form-control" onChange={this.onChangeSuperficieObra} value={this.state.superficie}/>
                                 </div>
                                 <button type="button" className="btn-primary" id="agregar" onClick={this.agregarObra}>
                                     Agregar Obra
@@ -190,7 +198,7 @@ export default class CreateUser extends Component {
                             this.state.clients.map(client => (
                                 <li className="list-group-item list-group-item-action" key={client.id}>
                                     {client.razonSocial}
-                                    <button type="button" className="deletebtn" onClick={() => this.deleteClient(client.id)}>Eliminar</button>
+                                    <button type="button" className="deletebtn btn btn-danger" onClick={() => this.deleteClient(client.id)}>Eliminar</button>
                                 </li>)
                             )
                         }

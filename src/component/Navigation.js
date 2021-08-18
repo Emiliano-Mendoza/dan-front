@@ -1,7 +1,18 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 export default class Navigation extends Component {
+
+    cerrarSesion=()=>{
+        cookies.remove('id', {path: "/"});
+        cookies.remove('username', {path: "/"});
+        window.location.href='./';
+    }
+
+
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -18,13 +29,14 @@ export default class Navigation extends Component {
                                 <Link className="nav-link" to="/">Notes</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/create">Create Note</Link>
+                                <Link className="nav-link" to="/obra">Agregar Obra</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/client">Crear Cliente</Link>
                             </li>
                         </ul>
                     </div>
+                    <button type="button" onClick={()=>this.cerrarSesion()}>Cerrar Sesion</button>
                 </div>
             </nav>
         )

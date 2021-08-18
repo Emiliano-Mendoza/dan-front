@@ -3,10 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
+
 import Navigation from './component/Navigation';
-import NoteList from './component/NoteList';
-import CreateNote from './component/CreateNote';
+import AddObra from './component/AddObra';
 import CreateClient from './component/CreateClient';
+import Login from './component/Login'
 
 function App() {
   return (
@@ -14,9 +15,8 @@ function App() {
       <Navigation/>
 
       <div className="container p-4">
-        <Route path="/" exact component={NoteList}/>
-        <Route path="/edit/:id" component={CreateNote}/>
-        <Route path="/create" component={CreateNote}/>
+        <Route path="/" exact component={Login}/>
+        <Route path="/obra" component={AddObra}/>
         <Route path="/client" component={CreateClient}/>
       </div>
     </Router>
