@@ -22,30 +22,8 @@ export default class Login extends Component {
         });
     }
     // { params: { user: this.state.form.username, password: this.state.form.password } }
-
-    /*
-    .then(response => {
-                return response.data;
-            })
-            .then(response => {
-                if (response.length > 0) {
-                    var respuesta = response[0];
-                    cookies.set('id', respuesta.id, { path: "/" });
-                    cookies.set('user', respuesta.user, { path: "/" });
-
-                    alert(`Bienvenido ${respuesta.user}`);
-                    window.location.href = "./client";
-                } else {
-                    alert('El usuario o la contraseña no son correctos');
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    */
-
     iniciarSesion = async () => {
-        await axios.get("http://localhost:7000/ms-usuario/api/usuario/id/" + 2)
+        await axios.get("http://localhost:7000/ms-usuario/api/usuario/id/" + 1)
         .then(response => {
             console.log(response.data);
             return response.data;

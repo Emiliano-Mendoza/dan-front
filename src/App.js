@@ -8,6 +8,7 @@ import Navigation from './component/Navigation';
 import AddObra from './component/AddObra';
 import CreateClient from './component/CreateClient';
 import Login from './component/Login'
+import AddObraUsuario from './component/AddObraUsuario';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <div className="container p-4">
         <Route path="/" exact component={Login}/>
         <Route path="/obra" component={AddObra}/>
+        <Route path="/obra-usuario" component={AddObraUsuario}/>
         <Route path="/client" component={CreateClient}/>
       </div>
     </Router>

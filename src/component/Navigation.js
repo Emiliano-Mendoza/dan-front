@@ -34,6 +34,9 @@ export default class Navigation extends Component {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/client">Crear Cliente</Link>
                             </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/obra-usuario">Obra-U</Link>
+                            </li>
                         </ul>
                     </div>
                     <button type="button" onClick={()=>this.cerrarSesion()}>Cerrar Sesion</button>
