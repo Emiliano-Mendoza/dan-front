@@ -9,6 +9,7 @@ import AddObra from './component/AddObra';
 import CreateClient from './component/CreateClient';
 import Login from './component/Login'
 import AddObraUsuario from './component/AddObraUsuario';
+import CreatePago from './component/CreatePago';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/obra" component={AddObra}/>
         <Route path="/obra-usuario" component={AddObraUsuario}/>
         <Route path="/client" component={CreateClient}/>
+        <Route path="/pago" component={CreatePago}/>
       </div>
     </Router>
   );
