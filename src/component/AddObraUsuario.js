@@ -102,7 +102,7 @@ export default class AddObraUsuario extends Component {
                             <p>Tipo: {obra.tipo.descripcion}</p>
                         </div>
                     ))}
-                    <button type="button" className="agregar-obra-button btn btn-primary" onClick={() => this.mostrarModal(this.state.client.razonSocial, this.state.client.id)}>Agregar</button>
+                    <button type="button" className="agregar-obra-button btn btn-primary" onClick={() => this.mostrarModal(this.state.client.razonSocial, this.state.client.id)}>Añadir Obra</button>
                 </div>
             </div>
 

@@ -26,19 +26,22 @@ export default class Navigation extends Component {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav ms-auto" >
                             <li className="nav-item active">
-                                <Link className="nav-link" to="/">Notes</Link>
+                                <Link className="nav-link" to="/">Iniciar Sesión</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/obra">Agregar Obra</Link>
+                                <Link className="nav-link" to="/obra">Clientes</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/client">Crear Cliente</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/obra-usuario">Obra-U</Link>
+                                <Link className="nav-link" to="/obra-usuario">Registrar Obra</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/pago">Pagos</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/alta-producto">Alta Producto</Link>
                             </li>
                         </ul>
                     </div>
