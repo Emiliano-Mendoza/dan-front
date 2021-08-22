@@ -39,8 +39,7 @@ p{
   margin-top: 7px;
 }
 
-.list-group-item{
-  
+.list-group-item{ 
   border: 1px solid blue;
 }
 
@@ -48,3 +47,6 @@ p{
   margin-bottom: 12px;
 }
 
+.input-cantidad{
+  width: 50%;
+}

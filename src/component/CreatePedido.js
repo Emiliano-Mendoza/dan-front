@@ -8,6 +8,7 @@ export default class CreatePedido extends Component {
 
     state = {
         pedidos: [],
+        productos: [],
         client: {
             razonSocial: '',
             obras: []
@@ -22,15 +23,16 @@ export default class CreatePedido extends Component {
 
         detallePed: {
             producto: {
-                id: null
+                id: null,
+                precio: 0
             },
-            cantidad: null,
-            precio: null
+            cantidad: 1,
+            precio: 0
         },
 
         ventanaNuevoPedido: false,
-
-        idLi: ''
+        idLi: '',
+        prodSeleccionado: {},
     }
 
     async componentDidMount() {
@@ -38,6 +40,7 @@ export default class CreatePedido extends Component {
             window.location.href = "./";
         } else {
             this.getClient();
+            this.getProductos();
         }
     }
 
@@ -46,6 +49,11 @@ export default class CreatePedido extends Component {
         await this.setState({ client: res.data });
     }
 
+    async getProductos() {
+        const res = await axios.get('http://localhost:7000/ms-productos/api/producto');
+        await this.setState({ productos: res.data });
+        console.log(this.state.productos);
+    }
 
     handleChange = (e) => {
         this.setState({
@@ -56,6 +64,15 @@ export default class CreatePedido extends Component {
         });
         //console.log(e.target.value + "   " + e.target.name);
     }
+    detalleHandleChange = (e) => {
+        this.setState({
+            detallePed: {
+                ...this.state.detallePed,
+                [e.target.name]: e.target.value
+            }
+        })
+    }
+
     getCurrentDate = () => {
         let today = new Date();
         let dd = String(today.getDate()).padStart(2, '0');
@@ -75,8 +92,46 @@ export default class CreatePedido extends Component {
     cerrarVentana = async () => {
         await this.setState({
             ventanaNuevoPedido: false,
-            
+
         })
+    }
+
+    selectProducto = async (e) => {
+        await this.setState({
+            prodSeleccionado: e.target.value
+        });
+
+        const res = await axios.get('http://localhost:7000/ms-productos/api/producto/' + this.state.prodSeleccionado);
+        await this.setState({ detallePed: { ...this.state.detallePed, producto: res.data } });
+        await this.setState({ detallePed: { ...this.state.detallePed, precio: this.state.detallePed.producto.precio } });
+        console.log(this.state.detallePed);
+    }
+
+    addDetalle = async (e) => {
+        e.preventDefault();
+
+        let newDetalle = {
+            producto: this.state.detallePed.producto,
+            precio: this.state.detallePed.precio,
+            cantidad: this.state.detallePed.cantidad 
+        };
+        let auxDetalle = this.state.form.detalle;
+        auxDetalle.push(this.state.detallePed);
+        await this.setState({
+            form:{
+                ...this.state.form,
+                detalle: auxDetalle
+            }
+        })
+
+        await this.setState({
+            detallePed: {
+                ...this.state.detallePed,
+                cantidad: 1,
+            },
+        });
+
+        console.log(this.state.form);
     }
 
     render() {
@@ -93,16 +148,40 @@ export default class CreatePedido extends Component {
                                     {this.state.ventanaNuevoPedido && obra.id === this.state.idLi ?
                                         <>
                                             <h4>Nuevo Pedido:</h4>
-                                            <form>
+                                            <form onSubmit={this.addDetalle}>
+                                                <p>Productos: </p>
+                                                <select id="selector" name="producto" onChange={this.selectProducto}>
+                                                    <option>-</option>
+                                                    {this.state.productos.map(prod => (
+                                                        <option value={prod.id} key={prod.id}>{prod.nombre}</option>
+                                                    ))}
+                                                </select>
+                                                <div className="form-group">
+                                                    <h6>Cantidad: </h6>
+                                                    <input type="number" min="1" className="form-control input-cantidad" name="cantidad" value={this.state.detallePed.cantidad} onChange={this.detalleHandleChange} />
+                                                </div>
+                                                <div className="form-group">
+                                                    <h6>Precio: </h6>
+                                                    <p>{this.state.detallePed.producto.precio}</p>
+                                                    <h6>Total: </h6>
+                                                    <p>{this.state.detallePed.cantidad * this.state.detallePed.producto.precio}</p>
+                                                </div>
                                                 <div className="form-group">
                                                     <h6>Fecha: </h6>
                                                     <input type='text' className="form-control input-pago" name="fechaPedido" value={this.getCurrentDate()} disabled />
                                                 </div>
+
+                                                <button type="submit" className="btn btn-primary" id="guardar" >
+                                                    Añadir al carro
+                                                </button>
                                             </form>
+
+
+
                                         </> : null}
 
                                     {this.state.ventanaNuevoPedido && obra.id === this.state.idLi ?
-                                        
+
                                         <button type="button" className="deletebtn btn btn-primary" onClick={() => this.cerrarVentana()}>Confirmar</button> :
                                         <button type="button" className="deletebtn btn btn-primary" onClick={() => this.abrirVentana(obra.id)}>Nuevo Pedido</button>}
                                 </li>)
