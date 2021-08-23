@@ -50,3 +50,9 @@ p{
 .input-cantidad{
   width: 50%;
 }
+
+.ver-pedidos{
+  margin-left: 15px;
+  margin-right: 15px;
+  background-color: #4CAF50;
+}

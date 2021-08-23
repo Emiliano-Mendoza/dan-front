@@ -31,6 +31,7 @@ export default class CreatePedido extends Component {
         },
 
         ventanaNuevoPedido: false,
+        ventanaVerPedidos: false,
         idLi: '',
         prodSeleccionado: {},
     }
@@ -93,6 +94,15 @@ export default class CreatePedido extends Component {
         await this.setState({
             ventanaNuevoPedido: false,
 
+            detallePed: {
+                producto: {
+                    id: null,
+                    precio: 0
+                },
+                cantidad: 1,
+                precio: 0
+            },
+
         })
     }
 
@@ -110,16 +120,12 @@ export default class CreatePedido extends Component {
     addDetalle = async (e) => {
         e.preventDefault();
 
-        let newDetalle = {
-            producto: this.state.detallePed.producto,
-            precio: this.state.detallePed.precio,
-            cantidad: this.state.detallePed.cantidad 
-        };
         let auxDetalle = this.state.form.detalle;
         auxDetalle.push(this.state.detallePed);
         await this.setState({
             form:{
-                ...this.state.form,
+                obra:{id: this.state.idLi},
+                fechaPedido: this.getCurrentDate(),
                 detalle: auxDetalle
             }
         })
@@ -132,6 +138,23 @@ export default class CreatePedido extends Component {
         });
 
         console.log(this.state.form);
+    }
+
+    enviarPedido = async () =>{
+        await axios.post('http://localhost:7000/ms-pedidos/api/pedidos', this.state.form);
+        this.cerrarVentana();
+    }
+
+    abrirVentanaPedidos = async (id) =>{
+        await this.setState({
+            ventanaVerPedidos: true,
+            idLi: id
+        })
+    }
+    cerrarVentanaPedidos = () =>{
+        this.setState({
+            ventanaVerPedidos: false,
+        })
     }
 
     render() {
@@ -176,14 +199,26 @@ export default class CreatePedido extends Component {
                                                 </button>
                                             </form>
 
-
-
                                         </> : null}
 
+                                    {this.state.ventanaVerPedidos && obra.id === this.state.idLi ? <p>HOLAA</p> : null}    
+
+                                    
                                     {this.state.ventanaNuevoPedido && obra.id === this.state.idLi ?
 
-                                        <button type="button" className="deletebtn btn btn-primary" onClick={() => this.cerrarVentana()}>Confirmar</button> :
-                                        <button type="button" className="deletebtn btn btn-primary" onClick={() => this.abrirVentana(obra.id)}>Nuevo Pedido</button>}
+                                        <>
+                                            <button type="button" className="deletebtn btn btn-danger" onClick={() => this.cerrarVentana()}>Cancelar</button>
+                                            <button type="button" className="deletebtn btn btn-primary" onClick={() => this.enviarPedido()}>Confirmar</button>
+                                        </> :
+                                        <>
+                                            {this.state.ventanaVerPedidos && obra.id === this.state.idLi ? <>
+                                                <button type="button" className="deletebtn btn btn-danger" onClick={() => this.cerrarVentanaPedidos()}>Cerrar</button>
+                                                </> : 
+                                                <>
+                                                <button type="button" className="deletebtn btn btn-primary" onClick={() => this.abrirVentana(obra.id)}>Nuevo Pedido</button>
+                                                <button type="button" className="deletebtn btn btn-primary ver-pedidos" onClick={() => this.abrirVentanaPedidos(obra.id)}>Ver Pedidos</button>
+                                                </> }
+                                        </>}
                                 </li>)
                             )
                         }
