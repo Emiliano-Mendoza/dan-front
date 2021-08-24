@@ -42,6 +42,7 @@ export default class CreatePedido extends Component {
         } else {
             this.getClient();
             this.getProductos();
+
         }
     }
 
@@ -52,7 +53,17 @@ export default class CreatePedido extends Component {
 
     async getProductos() {
         const res = await axios.get('http://localhost:7000/ms-productos/api/producto');
-        await this.setState({ productos: res.data });
+        await this.setState({ 
+            productos: res.data,
+            detallePed: {
+                producto: {
+                    id: res.data[0].id,
+                    precio: res.data[0].precio
+                },
+                cantidad: 1,
+                precio: res.data[0].precio
+            },
+        });
     }
 
     handleChange = (e) => {
@@ -120,7 +131,7 @@ export default class CreatePedido extends Component {
 
     enviarPedido = async () =>{
         await axios.post('http://localhost:7000/ms-pedidos/api/pedidos', this.state.form);
-        this.cerrarVentana();
+        this.cancelarNuevoPedido();
     }
 
 
@@ -137,11 +148,11 @@ export default class CreatePedido extends Component {
 
             detallePed: {
                 producto: {
-                    id: null,
-                    precio: 0
+                    id: this.state.productos[0].id,
+                    precio: this.state.productos[0].precio
                 },
                 cantidad: 1,
-                precio: 0
+                precio: this.state.productos[0].precio
             },
             form:{
                 ...this.state.form,
@@ -184,7 +195,7 @@ export default class CreatePedido extends Component {
                                             <form onSubmit={this.addDetalle}>
                                                 <p>Productos: </p>
                                                 <select id="selector" name="producto" onChange={this.selectProducto}>
-                                                    <option>-</option>
+                                                   
                                                     {this.state.productos.map(prod => (
                                                         <option value={prod.id} key={prod.id}>{prod.nombre}</option>
                                                     ))}

@@ -70,3 +70,7 @@ p{
 .cerrar-btn{
   margin-top: 10px;
 }
+.cerrar-sesion-btn{
+  background-color: grey;
+  margin-left: 15px;
+}

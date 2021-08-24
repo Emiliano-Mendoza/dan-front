@@ -25,12 +25,12 @@ export default class CreatePago extends Component {
         form: {
             type: 'efectivo',
             observacion: '',
-            nroRecibo: null,
-            cbuOrigen: null,
-            cbuDestino: null,
-            codigoTransferencia: null,
-            nroCheque: null,
-            banco: null
+            nroRecibo: '',
+            cbuOrigen: '',
+            cbuDestino: '',
+            codigoTransferencia: '',
+            nroCheque: '',
+            banco: ''
         },
 
         pago:{
@@ -97,6 +97,8 @@ export default class CreatePago extends Component {
     }
 
     registrarPago = async (e) => {
+        e.preventDefault();
+
         await this.formarMedioPago();
 
         await this.setState({
@@ -111,14 +113,14 @@ export default class CreatePago extends Component {
         this.getPagos();
         await this.setState({
             form: {
-                type: 'efectivo',
+                ...this.state.form,
                 observacion: '',
-                nroRecibo: null,
-                cbuOrigen: null,
-                cbuDestino: null,
-                codigoTransferencia: null,
-                nroCheque: null,
-                banco: null
+                nroRecibo: '',
+                cbuOrigen: '',
+                cbuDestino: '',
+                codigoTransferencia: '',
+                nroCheque: '',
+                banco: ''
             },
         })
     }
@@ -154,7 +156,7 @@ export default class CreatePago extends Component {
             <div className="col-md-4">
                 <div className="card card-body">
                     <h3>Realizar Pago:</h3>
-                    <form>
+                    <form onSubmit={this.registrarPago}>
                         <div className="form-group">
                             <h6>Medio de pago:</h6>
                             <select id="selector" name="type" onChange={this.tipoChange} className="input-pago">
@@ -163,44 +165,44 @@ export default class CreatePago extends Component {
                                     <option value="cheque">Cheque</option>
                             </select>
                             <h6>Observacion:</h6>
-                            <input type='text' className="form-control input-pago" name="observacion" onChange={this.handleChange}/>
+                            <input type='text' className="form-control input-pago" name="observacion" onChange={this.handleChange} value={this.state.form.observacion} required/>
                             {this.state.form.type === 'efectivo' ? 
                                 <div>
                                     <h6>Número de recibo:</h6>
-                                    <input type='number' className="form-control input-pago" name="nroRecibo" onChange={this.handleChange}  />
+                                    <input type='number' className="form-control input-pago" name="nroRecibo" onChange={this.handleChange} value={this.state.form.nroRecibo} required/>
                                 </div> : null}
 
                             {this.state.form.type === 'transferencia' ? 
                                 <div>
                                     <h6>CBU Origen:</h6>
-                                    <input type='text' className="form-control input-pago" name="cbuOrigen" onChange={this.handleChange}  />
+                                    <input type='text' className="form-control input-pago" name="cbuOrigen" onChange={this.handleChange} value={this.state.form.cbuOrigen} required/>
                                 </div> : null}
 
                             {this.state.form.type === 'transferencia' ? 
                                 <div>
                                     <h6>CBU Destino:</h6>
-                                    <input type='text' className="form-control input-pago" name="cbuDestino" onChange={this.handleChange} />
+                                    <input type='text' className="form-control input-pago" name="cbuDestino" onChange={this.handleChange} value={this.state.form.cbuDestino} required/>
                                 </div> : null}  
 
                             {this.state.form.type === 'transferencia' ? 
                                 <div>
                                     <h6>Código de transferencia:</h6>
-                                    <input type='number' className="form-control input-pago" name="codigoTransferencia" onChange={this.handleChange}  />
+                                    <input type='number' className="form-control input-pago" name="codigoTransferencia" onChange={this.handleChange} value={this.state.form.codigoTransferencia} required/>
                                 </div> : null}
 
                             {this.state.form.type === 'cheque' ? 
                                 <div>
                                     <h6>Número de cheque:</h6>
-                                    <input type='text' className="form-control input-pago" name="nroCheque" onChange={this.handleChange}  />
+                                    <input type='text' className="form-control input-pago" name="nroCheque" onChange={this.handleChange} value={this.state.form.nroCheque} required/>
                                 </div> : null}
 
                             {this.state.form.type === 'cheque' ? 
                                 <div>
                                     <h6>Banco:</h6>
-                                    <input type='text' className="form-control input-pago"  name="banco" onChange={this.handleChange}/>
+                                    <input type='text' className="form-control input-pago"  name="banco" onChange={this.handleChange} value={this.state.form.banco} required/>
                                 </div> : null}
                         </div>
-                        <button type="submit" className="btn btn-primary agregar-obra-button" id="registrar" onClick={()=>this.registrarPago()}>
+                        <button type="submit" className="btn btn-primary agregar-obra-button" id="registrar">
                             Registrar
                         </button>
                     </form>

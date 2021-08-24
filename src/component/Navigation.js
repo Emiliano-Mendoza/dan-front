@@ -48,7 +48,7 @@ export default class Navigation extends Component {
                             </li>
                         </ul>
                     </div>
-                    <button type="button" onClick={()=>this.cerrarSesion()}>Cerrar Sesion</button>
+                    <button type="button" className="cerrar-sesion-btn" onClick={()=>this.cerrarSesion()}>Cerrar Sesión</button>
                 </div>
             </nav>
         )
