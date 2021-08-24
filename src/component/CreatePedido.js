@@ -53,7 +53,6 @@ export default class CreatePedido extends Component {
     async getProductos() {
         const res = await axios.get('http://localhost:7000/ms-productos/api/producto');
         await this.setState({ productos: res.data });
-        console.log(this.state.productos);
     }
 
     handleChange = (e) => {
@@ -65,6 +64,7 @@ export default class CreatePedido extends Component {
         });
         //console.log(e.target.value + "   " + e.target.name);
     }
+
     detalleHandleChange = (e) => {
         this.setState({
             detallePed: {
@@ -82,28 +82,6 @@ export default class CreatePedido extends Component {
 
         today = yyyy + '-' + mm + '-' + dd;
         return today;
-    }
-
-    abrirVentana = async (id) => {
-        await this.setState({
-            ventanaNuevoPedido: true,
-            idLi: id
-        })
-    }
-    cerrarVentana = async () => {
-        await this.setState({
-            ventanaNuevoPedido: false,
-
-            detallePed: {
-                producto: {
-                    id: null,
-                    precio: 0
-                },
-                cantidad: 1,
-                precio: 0
-            },
-
-        })
     }
 
     selectProducto = async (e) => {
@@ -145,32 +123,64 @@ export default class CreatePedido extends Component {
         this.cerrarVentana();
     }
 
-    abrirVentanaPedidos = async (id) =>{
+
+    abrirVentana = async (id) => {
         await this.setState({
-            ventanaVerPedidos: true,
+            ventanaNuevoPedido: true,
             idLi: id
         })
+    }
+    cancelarNuevoPedido = async () => {
+        await this.setState({
+            ventanaVerPedidos: false,
+            ventanaNuevoPedido: false,
+
+            detallePed: {
+                producto: {
+                    id: null,
+                    precio: 0
+                },
+                cantidad: 1,
+                precio: 0
+            },
+            form:{
+                ...this.state.form,
+                detalle: []
+            }
+        })
+    }
+
+    abrirVentanaPedidos = async (id) =>{
+        const res = await axios.get('http://localhost:7000/ms-pedidos/api/pedidos/porObra/' + id);
+        await this.setState({
+            ventanaVerPedidos: true,
+            idLi: id,
+            pedidos: res.data
+        })
+        console.log(this.state.pedidos);
+
     }
     cerrarVentanaPedidos = () =>{
         this.setState({
             ventanaVerPedidos: false,
+            ventanaNuevoPedido: false
         })
     }
 
     render() {
         return (
             <div className="row">
-                <div className="col-md-8">
+                <div className="col-md-10 div-cen">
                     <ul className="list-group">
                         <h4>{this.state.client.razonSocial}</h4>
                         {
                             this.state.client.obras.map(obra => (
                                 <li className="list-group-item" key={obra.id}>
-                                    <p>Descripcion: {obra.descripcion}</p>
+                                    <p>Descripcion de obra: {obra.descripcion}</p>
 
                                     {this.state.ventanaNuevoPedido && obra.id === this.state.idLi ?
                                         <>
-                                            <h4>Nuevo Pedido:</h4>
+                                            <h6>Nuevo Pedido:</h6>
                                             <form onSubmit={this.addDetalle}>
                                                 <p>Productos: </p>
                                                 <select id="selector" name="producto" onChange={this.selectProducto}>
@@ -201,18 +211,40 @@ export default class CreatePedido extends Component {
 
                                         </> : null}
 
-                                    {this.state.ventanaVerPedidos && obra.id === this.state.idLi ? <p>HOLAA</p> : null}    
+                                    {this.state.ventanaVerPedidos && obra.id === this.state.idLi ? 
+                                    <>  
+                                        Pedidos:
+                                        {this.state.pedidos.map(ped => (
+                                            <div className="div-pedido" key={ped.id}>
+                                                Fecha: {ped.fechaPedido}
+                                                {ped.detallepedido.map( det =>(
+                                                    <div key={det.id}>
+                                                        <p>Descripcion del producto: {det.producto.descripcion}</p> 
+                                                        <p>Cantidad: {det.cantidad}</p>
+                                                        <p>Precio: {det.precio}</p>
+                                                        
+                                                    </div>
+                                                )
+                                                    
+                                                )}
+                                                <p>Estado del pedido: {ped.estado.estado}</p>
+                                            </div>
+                                        ))}
+                                        
+                
+                                    </> 
+                                    : null}    
 
                                     
                                     {this.state.ventanaNuevoPedido && obra.id === this.state.idLi ?
 
                                         <>
-                                            <button type="button" className="deletebtn btn btn-danger" onClick={() => this.cerrarVentana()}>Cancelar</button>
+                                            <button type="button" className="deletebtn btn btn-danger" onClick={() => this.cancelarNuevoPedido()}>Cancelar</button>
                                             <button type="button" className="deletebtn btn btn-primary" onClick={() => this.enviarPedido()}>Confirmar</button>
                                         </> :
                                         <>
                                             {this.state.ventanaVerPedidos && obra.id === this.state.idLi ? <>
-                                                <button type="button" className="deletebtn btn btn-danger" onClick={() => this.cerrarVentanaPedidos()}>Cerrar</button>
+                                                <button type="button" className="deletebtn btn btn-danger cerrar-btn" onClick={() => this.cerrarVentanaPedidos()}>Cerrar</button>
                                                 </> : 
                                                 <>
                                                 <button type="button" className="deletebtn btn btn-primary" onClick={() => this.abrirVentana(obra.id)}>Nuevo Pedido</button>

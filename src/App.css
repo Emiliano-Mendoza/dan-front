@@ -56,3 +56,17 @@ p{
   margin-right: 15px;
   background-color: #4CAF50;
 }
+
+.div-pedido{
+  border: 1px solid black;
+  margin-top: 5px;
+  padding: 5px;
+}
+
+.div-cen{
+  margin: auto;
+}
+
+.cerrar-btn{
+  margin-top: 10px;
+}

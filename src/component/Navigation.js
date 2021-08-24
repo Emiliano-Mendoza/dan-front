@@ -29,11 +29,11 @@ export default class Navigation extends Component {
                                 <Link className="nav-link" to="/">Iniciar Sesión</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/obra">Clientes</Link>
+                                <Link className="nav-link" to="/obra">Listar Clientes</Link>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <Link className="nav-link" to="/client">Crear Cliente</Link>
-                            </li>
+                            </li> */}
                             <li className="nav-item">
                                 <Link className="nav-link" to="/obra-usuario">Registrar Obra</Link>
                             </li>
