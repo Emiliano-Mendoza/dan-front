@@ -5,8 +5,8 @@ import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 
 import Navigation from './component/Navigation';
-import AddObra from './component/AddObra';
-//import CreateClient from './component/CreateClient';
+//import AddObra from './component/AddObra';
+import CreateClient from './component/CreateClient';
 import Login from './component/Login'
 import AddObraUsuario from './component/AddObraUsuario';
 import CreatePago from './component/CreatePago';
@@ -20,9 +20,9 @@ function App() {
 
       <div className="container p-4">
         <Route path="/" exact component={Login}/>
-        <Route path="/obra" component={AddObra}/>
+        {/* <Route path="/obra" component={AddObra}/> */}
         <Route path="/obra-usuario" component={AddObraUsuario}/>
-        {/* <Route path="/client" component={CreateClient}/> */}
+        <Route path="/client" component={CreateClient}/>
         <Route path="/pago" component={CreatePago}/>
         <Route path="/alta-producto" component={AltaProducto}/>
         <Route path="/nuevo-pedido" component={CreatePedido}/>

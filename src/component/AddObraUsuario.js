@@ -164,7 +164,7 @@ export default class AddObraUsuario extends Component {
                     </FormGroup>
 
                     <FormGroup>
-                        <label> Superficie:</label>
+                        <label>Superficie:</label>
                         <input
                             className="form-control"
                             name="latitud"

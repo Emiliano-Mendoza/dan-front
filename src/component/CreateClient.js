@@ -8,19 +8,24 @@ export default class CreateUser extends Component {
 
     state = {
         clients: [],
-        razonSocial: '',
-        cuit: '',
-        mail: '',
-        maxCuentaCorriente: 5000,
-        habilitadoOnline: false,
-        obras: [],
-        descripcion: '',
-        idTipoObra: 1,
-        tipo: '',
-        latitud: 0,
-        longitud: 0,
-        direccion: '',
-        superficie: 0
+
+        form: {
+            razonSocial: '',
+            cuit: '',
+            mail: '',
+            maxCuentaCorriente: 5000,
+            habilitadoOnline: false,
+            obras: [],
+        },
+
+        formObra:{
+            tipo: {id: 1},
+            descripcion: '',
+            latitud: '',
+            longitud: '',
+            direccion: '',
+            superficie: ''
+        }
     }
 
     async getClients() {
@@ -35,115 +40,78 @@ export default class CreateUser extends Component {
          
     }
 
-    onChangeRazonSocial = (e) => {
+    handleChange = (e) =>{
         this.setState({
-            razonSocial: e.target.value
-        })
+            form:{
+                ...this.state.form,
+                [e.target.name]: e.target.value
+            }
+        });
     }
-    onChangeCuit = (e) => {
-        this.setState({
-            cuit: e.target.value
-        })
-    }
-    onChangeMail = (e) => {
-        this.setState({
-            mail: e.target.value
-        })
-    }
-    onChangeDescripcionObra = (e) => {
-        this.setState({
-            descripcion: e.target.value
-        })
-    }
-    onChangeLatitudObra = (e) => {
-        this.setState({
-            latitud: e.target.value
-        })
-    }
-    onChangeLongitudObra = (e) => {
-        this.setState({
-            longitud: e.target.value
-        })
-    }
-    onChangeDireccionObra = (e) => {
-        this.setState({
-            direccion: e.target.value
-        })
-    }
-    onChangeSuperficieObra = (e) => {
-        this.setState({
-            superficie: e.target.value
-        })
-    }
-    onChangeTipo= (e) =>{
-        var x = e.target.value;
-        var aux;
-        if(x === "Reforma"){
-            aux = 1;
-        }else if (x === "Casa"){
-            aux = 2;
-        }else if (x === "Edificio"){
-            aux = 3;
-        }else if (x === "Vial"){
-            aux = 4;
-        }
 
+    handleObraChange = (e) =>{
         this.setState({
-            tipo: e.target.value,
-            idTipoObra: aux
-        })
+            formObra:{
+                ...this.state.formObra,
+                [e.target.name]: e.target.value
+            }
+        });
+    }
+    handleChangeTipoObra = (e) =>{
+        this.setState({
+            formObra:{
+                ...this.state.formObra,
+                tipo: {id: e.target.value} 
+            }
+        });
     }
 
     onSubmit = async e => {
         e.preventDefault();
-        await axios.post('http://localhost:7000/ms-usuario/api/cliente', {
-            razonSocial: this.state.razonSocial,
-            cuit: this.state.cuit,
-            mail: this.state.mail,
-            maxCuentaCorriente: "5000",
-            habilitadoOnline: false,
-            obras: this.state.obras
-        });
+        await axios.post('http://localhost:7000/ms-usuario/api/cliente', this.state.form);
         this.getClients();
-        this.setState({ razonSocial: '' });
-        this.setState({ cuit: '' });
-        this.setState({ mail: '' });
-        this.setState({ obras: []});
+        this.setState({
+            form: {
+                razonSocial: '',
+                cuit: '',
+                mail: '',
+                maxCuentaCorriente: 5000,
+                habilitadoOnline: false,
+                obras: [],
+            }
+        });
 
     }
+
     agregarObra = () =>{
-        let newObra = {
-            descripcion: this.state.descripcion,
-            tipo: {
-                id: this.state.idTipoObra,
-                descripcion: this.state.tipo
-            },
-            latitud: this.state.latitud,
-            longitud: this.state.longitud,
-            direccion: this.state.direccion,
-            superficie: this.state.superficie    
-        }
-        let obrasAux = this.state.obras;
+        let newObra = this.state.formObra
+        let obrasAux = this.state.form.obras;
         obrasAux.push(newObra);
 
         this.setState({
-            obras: obrasAux
+            form:{
+                ...this.state.form,
+                obras: obrasAux
+            } 
         });
 
-        this.setState({ descripcion: '' });
-        this.setState({ latitud: 0 });
-        this.setState({ longitud: 0 });
-        this.setState({ direccion: '' });
-        this.setState({ superficie: 0 });
-        
+        this.setState({ 
+            formObra:{
+                ...this.state.formObra,
+                descripcion: '',
+                latitud: '',
+                longitud: '',
+                direccion: '',
+                superficie: ''
+            }
+         });
+        console.log(this.state.form);
     }
 
     deleteClient = async (id) => {
         await axios.delete("http://localhost:7000/ms-usuario/api/cliente/id/" + id);
         this.getClients();
     }
-
-
 
     render() {
         return (
@@ -154,39 +122,43 @@ export default class CreateUser extends Component {
                         <form onSubmit={this.onSubmit}>
                             <div className="form-group">
                                 <h6>Razón Social:</h6>
-                                <input type='text' className="form-control" onChange={this.onChangeRazonSocial} value={this.state.razonSocial} required/>
+                                <input type='text' className="form-control" name="razonSocial" onChange={this.handleChange} value={this.state.form.razonSocial} required/>
                                 <h6>Cuit:</h6>
-                                <input type='text' className="form-control" onChange={this.onChangeCuit} value={this.state.cuit} required/>
+                                <input type='text' className="form-control" name="cuit" onChange={this.handleChange} value={this.state.form.cuit} required/>
                                 <h6>E-mail:</h6>
-                                <input type='email' className="form-control" onChange={this.onChangeMail} value={this.state.mail} required/>
+                                <input type='email' className="form-control" name="mail" onChange={this.handleChange} value={this.state.form.mail} required/>
 
                                 <div>
                                     <h4 className="obras">Obras:</h4>
                                     <p>Descripcion:</p>
-                                    <input type='text' className="form-control" onChange={this.onChangeDescripcionObra} value={this.state.descripcion} />
+                                    <input type='text' className="form-control" name="descripcion" onChange={this.handleObraChange} value={this.state.formObra.descripcion} />
                                     <p>Tipo de obra: </p>
-                                    <select id="selector" onChange={this.onChangeTipo}>
-                                        <option > - </option>
-                                        <option value="Reforma" >Reforma</option>
-                                        <option value="Casa">Casa</option>
-                                        <option value="Edificio">Edificio</option>
-                                        <option value="Vial">Vial</option>
+                                    <select id="selector" name="idTipoObra" onChange={this.handleChangeTipoObra}>
+
+                                        <option value="1">Reforma</option>
+                                        <option value="2">Casa</option>
+                                        <option value="3">Edificio</option>
+                                        <option value="4">Vial</option>
                                     </select>
                                     <p>Latitud: </p>
-                                    <input type="number" step="0.1" className="form-control" onChange={this.onChangeLatitudObra} value={this.state.latitud} />
+                                    <input type="number" step="0.1" className="form-control" name="latitud" onChange={this.handleObraChange} value={this.state.formObra.latitud} />
                                     <p>Longitud: </p>
-                                    <input type="number" step="0.1" className="form-control" onChange={this.onChangeLongitudObra} value={this.state.longitud} />
+                                    <input type="number" step="0.1" className="form-control" name="longitud" onChange={this.handleObraChange} value={this.state.formObra.longitud} />
                                     <p>Direccion:</p>
-                                    <input type='text' className="form-control" onChange={this.onChangeDireccionObra} value={this.state.direccion} />
+                                    <input type='text' className="form-control" name="direccion" onChange={this.handleObraChange} value={this.state.formObra.direccion} />
                                     <p>Superficie: </p>
-                                    <input type="number" step="1" className="form-control" onChange={this.onChangeSuperficieObra} value={this.state.superficie}/>
+                                    <input type="number" step="1" className="form-control" name="superficie" onChange={this.handleObraChange} value={this.state.formObra.superficie}/>
                                 </div>
-                                <button type="button" className="btn-primary" id="agregar" onClick={this.agregarObra}>
+                                <button type="button"  id="agregar" onClick={this.agregarObra}
+                                    disabled={this.state.formObra.descripcion.length === 0 || this.state.formObra.direccion.length === 0
+                                        || this.state.formObra.latitud.length === 0 || this.state.formObra.longitud.length === 0
+                                        || this.state.formObra.superficie.length === 0}>
+
                                     Agregar Obra
                                 </button>
-                                <div id="obras-agregadas">Obras agregadas: {this.state.obras.length}</div>
+                                <div id="obras-agregadas">Obras agregadas: {this.state.form.obras.length}</div>
                             </div>
-                            <button type="submit" className="btn btn-primary" id="guardar" >
+                            <button type="submit" id="guardar" disabled={this.state.form.obras.length === 0}>
                                 Guardar
                             </button>
                         </form>
