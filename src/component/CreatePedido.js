@@ -53,7 +53,7 @@ export default class CreatePedido extends Component {
 
     async getProductos() {
         const res = await axios.get('http://localhost:7000/ms-productos/api/producto');
-        await this.setState({ 
+        await this.setState({
             productos: res.data,
             detallePed: {
                 producto: {
@@ -112,8 +112,8 @@ export default class CreatePedido extends Component {
         let auxDetalle = this.state.form.detalle;
         auxDetalle.push(this.state.detallePed);
         await this.setState({
-            form:{
-                obra:{id: this.state.idLi},
+            form: {
+                obra: { id: this.state.idLi },
                 fechaPedido: this.getCurrentDate(),
                 detalle: auxDetalle
             }
@@ -129,7 +129,7 @@ export default class CreatePedido extends Component {
         console.log(this.state.form);
     }
 
-    enviarPedido = async () =>{
+    enviarPedido = async () => {
         await axios.post('http://localhost:7000/ms-pedidos/api/pedidos', this.state.form);
         this.cancelarNuevoPedido();
     }
@@ -154,14 +154,14 @@ export default class CreatePedido extends Component {
                 cantidad: 1,
                 precio: this.state.productos[0].precio
             },
-            form:{
+            form: {
                 ...this.state.form,
                 detalle: []
             }
         })
     }
 
-    abrirVentanaPedidos = async (id) =>{
+    abrirVentanaPedidos = async (id) => {
         const res = await axios.get('http://localhost:7000/ms-pedidos/api/pedidos/porObra/' + id);
         await this.setState({
             ventanaVerPedidos: true,
@@ -171,7 +171,7 @@ export default class CreatePedido extends Component {
         console.log(this.state.pedidos);
 
     }
-    cerrarVentanaPedidos = () =>{
+    cerrarVentanaPedidos = () => {
         this.setState({
             ventanaVerPedidos: false,
             ventanaNuevoPedido: false
@@ -181,13 +181,13 @@ export default class CreatePedido extends Component {
     render() {
         return (
             <div className="row">
-                <div className="col-md-10 div-cen">
-                    <ul className="list-group">
+                <div className="col-md-10 div-cen div-gray">
+                    <ul className="list-group width-95  ">
                         <h4>{this.state.client.razonSocial}</h4>
                         {
                             this.state.client.obras.map(obra => (
-                                <li className="list-group-item" key={obra.id}>
-                                    <p>Descripcion de obra: {obra.descripcion}</p>
+                                <li className="list-group-item div-2 " key={obra.id}>
+                                    <p><b>Descripcion de obra:</b> {obra.descripcion}</p>
 
                                     {this.state.ventanaNuevoPedido && obra.id === this.state.idLi ?
                                         <>
@@ -195,7 +195,7 @@ export default class CreatePedido extends Component {
                                             <form onSubmit={this.addDetalle}>
                                                 <p>Productos: </p>
                                                 <select id="selector" name="producto" onChange={this.selectProducto}>
-                                                   
+
                                                     {this.state.productos.map(prod => (
                                                         <option value={prod.id} key={prod.id}>{prod.nombre}</option>
                                                     ))}
@@ -222,31 +222,38 @@ export default class CreatePedido extends Component {
 
                                         </> : null}
 
-                                    {this.state.ventanaVerPedidos && obra.id === this.state.idLi ? 
-                                    <>  
-                                        Pedidos:
-                                        {this.state.pedidos.map(ped => (
-                                            <div className="div-pedido" key={ped.id}>
-                                                Fecha: {ped.fechaPedido}
-                                                {ped.detallepedido.map( det =>(
-                                                    <div key={det.id}>
-                                                        <p>Descripcion del producto: {det.producto.descripcion}</p> 
-                                                        <p>Cantidad: {det.cantidad}</p>
-                                                        <p>Precio: {det.precio}</p>
-                                                        
-                                                    </div>
-                                                )
-                                                    
-                                                )}
-                                                <p>Estado del pedido: {ped.estado.estado}</p>
-                                            </div>
-                                        ))}
-                                        
-                
-                                    </> 
-                                    : null}    
+                                    {this.state.ventanaVerPedidos && obra.id === this.state.idLi ?
+                                        <>
+                                            <b>Pedidos:</b>
+                                            {this.state.pedidos.map(ped => (
+                                                <div className="div-pedido " key={ped.id}>
+                                                    <div className="width-95">
+                                                        <p><b>Fecha:</b> {ped.fechaPedido}</p>
+                                                        <b>Estado del pedido: </b>
+                                                        {ped.estado.estado === "Nuevo" ? <><p style={{ color: 'orange', display: 'inline' }}>{ped.estado.estado}</p></> :
+                                                            ped.estado.estado === "CANCELADO" ? <><p style={{ color: 'red', display: 'inline' }}>{ped.estado.estado}</p></> :
+                                                                ped.estado.estado === "EN PREPARACION" ? <><p style={{ color: 'gray', display: 'inline' }}>{ped.estado.estado}</p></> :
+                                                                    <p style={{ color: '#4CAF50', display: 'inline' }}>{ped.estado.estado}</p>}
 
-                                    
+
+                                                        {ped.detallepedido.map(det => (
+                                                            <div key={det.id} className="div-b">
+                                                                <p><b>Descripcion del producto:</b> {det.producto.descripcion}</p>
+                                                                <p><b>Cantidad:</b> {det.cantidad}</p>
+                                                                <p><b>Precio:</b> {det.precio}</p>
+
+                                                            </div>
+                                                        )
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            ))}
+
+
+                                        </>
+                                        : null}
+
+
                                     {this.state.ventanaNuevoPedido && obra.id === this.state.idLi ?
 
                                         <>
@@ -256,11 +263,11 @@ export default class CreatePedido extends Component {
                                         <>
                                             {this.state.ventanaVerPedidos && obra.id === this.state.idLi ? <>
                                                 <button type="button" className="deletebtn btn btn-danger cerrar-btn" onClick={() => this.cerrarVentanaPedidos()}>Cerrar</button>
-                                                </> : 
+                                            </> :
                                                 <>
-                                                <button type="button" className="deletebtn btn btn-primary" onClick={() => this.abrirVentana(obra.id)}>Nuevo Pedido</button>
-                                                <button type="button" className="deletebtn btn btn-primary ver-pedidos" onClick={() => this.abrirVentanaPedidos(obra.id)}>Ver Pedidos</button>
-                                                </> }
+                                                    <button type="button" className="deletebtn btn btn-primary" onClick={() => this.abrirVentana(obra.id)}>Nuevo Pedido</button>
+                                                    <button type="button" className="deletebtn btn btn-primary ver-pedidos" onClick={() => this.abrirVentanaPedidos(obra.id)}>Ver Pedidos</button>
+                                                </>}
                                         </>}
                                 </li>)
                             )

@@ -132,31 +132,33 @@ export default class CreatePago extends Component {
 
     render() {
         return (<div className="row">
-            <div className="col-md-8">
+            <div className="col-md-8 div-gray">
 
-                <div className="group-item">
+                <div className="group-item width-95">
                     <h4>{this.state.client.razonSocial}</h4>
-                    {this.state.pagos.map(pago => (
-                        <div className="list-group-item" key={pago.id}>
-                            <p>Tipo: {pago.medio.type}</p>
-                            <p>Observacion: {pago.medio.observacion}</p>
-                            {pago.medio.nroRecibo ? <p>Número de recibo: {pago.medio.nroRecibo}</p> : null}
-                            {pago.medio.cbuOrigen ? <p>CBU Origen: {pago.medio.cbuOrigen}</p> : null}
-                            {pago.medio.cbuDestino ? <p>CBU Destino: {pago.medio.cbuDestino}</p> : null}
-                            {pago.medio.codigoTransferencia ? <p>Código de transferencia: {pago.medio.codigoTransferencia}</p> : null}
-                            {pago.medio.nroCheque ? <p>Número de cheque: {pago.medio.nroCheque}</p> : null}
-                            {pago.medio.banco ? <p>Banco: {pago.medio.banco}</p> : null}
-                            <button type="button" className="deletebtn btn btn-danger" onClick={()=>this.removerPago(pago.id)}>Remover</button>
-                            <p>Fecha: {pago.fechaPago}</p>
-                        </div>
-                    ))}
-
+                    <ul className="list-group">
+                        {this.state.pagos.map(pago => (
+                            <li className="list-group-item " key={pago.id}>
+                                <p><b>Tipo:</b> {pago.medio.type}</p>
+                                <p><b>Observación:</b> {pago.medio.observacion}</p>
+                                {pago.medio.nroRecibo ? <p><b>Número de recibo:</b> {pago.medio.nroRecibo}</p> : null}
+                                {pago.medio.cbuOrigen ? <p><b>CBU Origen:</b> {pago.medio.cbuOrigen}</p> : null}
+                                {pago.medio.cbuDestino ? <p><b>CBU Destino:</b> {pago.medio.cbuDestino}</p> : null}
+                                {pago.medio.codigoTransferencia ? <p><b>Código de transferencia:</b> {pago.medio.codigoTransferencia}</p> : null}
+                                {pago.medio.nroCheque ? <p><b>Número de cheque:</b> {pago.medio.nroCheque}</p> : null}
+                                {pago.medio.banco ? <p><b>Banco:</b> {pago.medio.banco}</p> : null}
+                                <button type="button" className="deletebtn btn btn-danger" onClick={()=>{ if (window.confirm('Estás seguro que desea remover el pago?')) this.removerPago(pago.id) }}>Remover</button>
+                                <p><b>Fecha:</b> {pago.fechaPago}</p>   
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </div>
             <div className="col-md-4">
-                <div className="card card-body">
-                    <h3>Realizar Pago:</h3>
-                    <form onSubmit={this.registrarPago}>
+                <div className="card card-body div-gray">
+                    
+                    <form className="form-s" onSubmit={this.registrarPago}>
+                        <h4>Realizar Pago:</h4>
                         <div className="form-group">
                             <h6>Medio de pago:</h6>
                             <select id="selector" name="type" onChange={this.tipoChange} className="input-pago">
@@ -164,7 +166,7 @@ export default class CreatePago extends Component {
                                     <option value="transferencia">Transferencia</option>
                                     <option value="cheque">Cheque</option>
                             </select>
-                            <h6>Observacion:</h6>
+                            <h6>Observación:</h6>
                             <input type='text' className="form-control input-pago" name="observacion" onChange={this.handleChange} value={this.state.form.observacion} required/>
                             {this.state.form.type === 'efectivo' ? 
                                 <div>

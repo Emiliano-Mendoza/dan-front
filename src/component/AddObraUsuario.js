@@ -90,18 +90,20 @@ export default class AddObraUsuario extends Component {
     }
     render() {
         return (<>
-            <div className="col-md-12">
+            <div className="col-md-12 div-gray">
 
-                <div className="group-item">
+                <div className="group-item width-95">
                     <h4>{this.state.client.razonSocial}</h4>
-                    {this.state.client.obras.map(obra => (
-                        <div className="list-group-item" key={obra.id}>
-                            {obra.descripcion}
-                            <p>{obra.direccion}</p>
-                            <button type="button" className="deletebtn btn btn-danger" onClick={() => this.eliminarObra(obra.id)}>Remover</button>
-                            <p>Tipo: {obra.tipo.descripcion}</p>
-                        </div>
-                    ))}
+                    <ul className="list-group">
+                        {this.state.client.obras.map(obra => (
+                            <li className="list-group-item" key={obra.id}>
+                                <p><b>Descripción: </b>{obra.descripcion}</p>
+                                <p><b>Dirección: </b>{obra.direccion}</p>
+                                <button type="button" className="deletebtn btn btn-danger" onClick={() => { if (window.confirm('Estás seguro que desea remover esta obra?')) this.eliminarObra(obra.id) }}>Remover</button>
+                                <p><b>Tipo:</b> {obra.tipo.descripcion}</p>
+                            </li>      
+                        ))}
+                    </ul>
                     <button type="button" className="agregar-obra-button btn btn-primary" onClick={() => this.mostrarModal(this.state.client.razonSocial, this.state.client.id)}>Añadir Obra</button>
                 </div>
             </div>

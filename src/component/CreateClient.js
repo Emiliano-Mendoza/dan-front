@@ -117,20 +117,21 @@ export default class CreateUser extends Component {
         return (
             <div className="row">
                 <div className="col-md-4">
-                    <div className="card card-body">
-                        <h3>Crear nuevo cliente</h3>
-                        <form onSubmit={this.onSubmit}>
+                    <div className="card card-body div-gray">
+                        
+                        <form className="form-s" onSubmit={this.onSubmit}>
+                            <h4>Crear nuevo cliente: </h4>
                             <div className="form-group">
-                                <h6>Razón Social:</h6>
+                                <label >Razón Social:</label>
                                 <input type='text' className="form-control" name="razonSocial" onChange={this.handleChange} value={this.state.form.razonSocial} required/>
-                                <h6>Cuit:</h6>
+                                <label >Cuit:</label>
                                 <input type='text' className="form-control" name="cuit" onChange={this.handleChange} value={this.state.form.cuit} required/>
-                                <h6>E-mail:</h6>
+                                <label >E-mail:</label>
                                 <input type='email' className="form-control" name="mail" onChange={this.handleChange} value={this.state.form.mail} required/>
 
                                 <div>
-                                    <h4 className="obras">Obras:</h4>
-                                    <p>Descripcion:</p>
+                                    <h6 className="obras">Obras:</h6>
+                                    <label >Descripcion:</label>
                                     <input type='text' className="form-control" name="descripcion" onChange={this.handleObraChange} value={this.state.formObra.descripcion} />
                                     <p>Tipo de obra: </p>
                                     <select id="selector" name="idTipoObra" onChange={this.handleChangeTipoObra}>
@@ -164,15 +165,16 @@ export default class CreateUser extends Component {
                         </form>
                     </div>
                 </div>
-                <div className="col-md-8">
-                    <ul className="list-group">
+                <div className="col-md-8 div-gray">
+                    <ul className="list-group width-95">
+                        <h4>Clientes: </h4>
                         {
                             this.state.clients.map(client => (
                                 <li className="list-group-item list-group-item-action" key={client.id}>
                                     {client.razonSocial}
-                                    <button type="button" className="deletebtn btn btn-danger" onClick={() => this.deleteClient(client.id)}>Eliminar</button>
+                                    <button type="button" className="deletebtn btn btn-danger" onClick={() => { if (window.confirm('Estás seguro que desea eliminar este cliente?')) this.deleteClient(client.id) }}>Eliminar</button>
                                 </li>)
-                            )
+                            )       
                         }
                     </ul>
                 </div>
