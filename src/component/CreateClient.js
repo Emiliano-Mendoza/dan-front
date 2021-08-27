@@ -34,7 +34,7 @@ export default class CreateUser extends Component {
     }
 
     async componentDidMount() {
-        if(!cookies.get('username')){
+        if(!cookies.get('id')){
             window.location.href="./";
         }else{this.getClients(); }
          

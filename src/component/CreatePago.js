@@ -40,7 +40,7 @@ export default class CreatePago extends Component {
     }
 
     async componentDidMount() {
-        if (!cookies.get('username')) {
+        if (!cookies.get('id')) {
             window.location.href = "./";
         } else {
             this.getClient();
@@ -56,7 +56,7 @@ export default class CreatePago extends Component {
     }
 
     async getClient() {
-        const res = await axios.get('http://localhost:7000/ms-usuario/api/cliente/mail/' + cookies.get('username'));
+        const res = await axios.get('http://localhost:7000/ms-usuario/api/cliente/usuario/' + cookies.get('id'));
         await this.setState({ client: res.data });
     }
     async getPagos() {

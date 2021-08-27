@@ -39,16 +39,16 @@ export default class AddObraUsuario extends Component {
     }
 
     async componentDidMount() {
-        if (!cookies.get('username')) {
+        if (!cookies.get('id')) {
             window.location.href = "./";
         } else { this.getClient(); }
     }
 
     async getClient() {
-        const res = await axios.get('http://localhost:7000/ms-usuario/api/cliente/mail/' + cookies.get('username'));
+        const res = await axios.get('http://localhost:7000/ms-usuario/api/cliente/usuario/' + cookies.get('id'));
         await this.setState({ client: res.data });
         console.log(this.state.client);
-        console.log(cookies.get('username'));
+        console.log(cookies.get('id'));
     }
 
     mostrarModal = (razonS, idCliente) => {
