@@ -24,7 +24,12 @@ export default class AddObraUsuario extends Component {
             habilitadoOnline: false,
             obras: []
         },
-        editClient: {},
+        editClient: {
+            razonSocial: '',
+            cuit: '',
+            mail: '',
+            maxCuentaCorriente: 5000,
+        },
         editButton: false,
 
         modalInsertar: false,

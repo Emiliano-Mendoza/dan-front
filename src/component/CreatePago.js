@@ -138,7 +138,7 @@ export default class CreatePago extends Component {
                     <h4>{this.state.client.razonSocial}</h4>
                     <ul className="list-group">
                         {this.state.pagos.map(pago => (
-                            <li className="list-group-item " key={pago.id}>
+                            <li className="list-group-item" key={pago.id}>
                                 <p><b>Tipo:</b> {pago.medio.type}</p>
                                 <p><b>Observación:</b> {pago.medio.observacion}</p>
                                 {pago.medio.nroRecibo ? <p><b>Número de recibo:</b> {pago.medio.nroRecibo}</p> : null}
@@ -158,7 +158,7 @@ export default class CreatePago extends Component {
                 <div className="card card-body div-gray">
                     
                     <form className="form-s" onSubmit={this.registrarPago}>
-                        <h4>Realizar Pago:</h4>
+                        <h4>Registrar Pago:</h4>
                         <div className="form-group">
                             <h6>Medio de pago:</h6>
                             <select id="selector" name="type" onChange={this.tipoChange} className="input-pago">

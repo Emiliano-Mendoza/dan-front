@@ -20,31 +20,31 @@ export default class AddObra extends Component {
         modalInsertar: false,
         clienteObra: '',
 
-        form:{
+        form: {
             descripcion: '',
-            tipo: {id: 1},
+            tipo: { id: 1 },
             latitud: 0,
             longitud: 0,
             direccion: '',
             superficie: 0,
-            cliente: {id: 1}
+            cliente: { id: 1 }
         },
     }
 
-    handleChange = e =>{
+    handleChange = e => {
         this.setState({
-            form:{
+            form: {
                 ...this.state.form,
                 [e.target.name]: e.target.value
             }
         });
         // console.log(e.target.value + "   " + e.target.name);
     }
-    tipoChange = e =>{
+    tipoChange = e => {
         this.setState({
-            form:{
+            form: {
                 ...this.state.form,
-                tipo: {id: parseInt(e.target.value, 10)}
+                tipo: { id: parseInt(e.target.value, 10) }
             }
         });
     }
@@ -55,9 +55,9 @@ export default class AddObra extends Component {
     }
 
     async componentDidMount() {
-        if(!cookies.get('id')){
-            window.location.href="./";
-        }else{this.getClients(); }
+        if (!cookies.get('id')) {
+            window.location.href = "./";
+        } else { this.getClients(); }
     }
 
     agregarObra = async (id) => {
@@ -72,9 +72,10 @@ export default class AddObra extends Component {
     mostrarModal = (razonS, idCliente) => {
         this.setState({
             modalInsertar: true,
-            form:{
+            form: {
                 ...this.state.form,
-                cliente: {id: idCliente}},
+                cliente: { id: idCliente }
+            },
             clienteObra: razonS
         })
     }
@@ -83,7 +84,7 @@ export default class AddObra extends Component {
             modalInsertar: false
         })
     }
-    eliminarObra = async (id) =>{
+    eliminarObra = async (id) => {
         await axios.delete("http://localhost:7000/ms-usuario/api/obra/id/" + id);
         this.getClients();
     }
@@ -91,24 +92,27 @@ export default class AddObra extends Component {
     render() {
         return (<>
             <div className="col-md-12">
-                <ul className="list-group">
+
+                <ul className="list-group" style={{borderRadius: '7px'}}>
+
                     {
                         this.state.clients.map(client => (
-                            <li className="list-group-item" key={client.id}>
-                                <h4>{client.razonSocial}</h4>
+                            <li className="list-group-item div-pedido" key={client.id} >
+                                <h4 className="width-95 input-pago">{client.razonSocial}</h4>
                                 {client.obras.map(obra => (
-                                    <div className="list-group-item" key={obra.id}>
-                                        {obra.descripcion}
-                                        <p>{obra.direccion}</p>
-                                        <button type="button" className="deletebtn btn btn-danger" onClick={() => this.eliminarObra(obra.id)}>Remover</button>
-                                        <p>Tipo: {obra.tipo.descripcion}</p>
+                                    <div className="list-group-item width-95 " key={obra.id} >
+                                        <p><b>Descripción: </b>{obra.descripcion}</p>
+                                        <p><b>Dirección: </b>{obra.direccion}</p>
+                                        <button type="button" className="deletebtn btn btn-danger" onClick={() => { if (window.confirm('Estás seguro que desea remover esta obra?')) this.eliminarObra(obra.id) }}>Remover</button>
+                                        <p><b>Tipo:</b> {obra.tipo.descripcion}</p>
                                     </div>
                                 ))}
-                                <button type="button" className="agregar-obra-button btn btn-primary" onClick={() => this.mostrarModal(client.razonSocial, client.id)}>Agregar</button>
+                                <button type="button" className=" btn btn-primary " style={{marginLeft: '30px', marginTop: '10px'}} onClick={() => this.mostrarModal(client.razonSocial, client.id)}>Agregar</button>
                             </li>)
                         )
                     }
                 </ul>
+
             </div>
 
             <Modal isOpen={this.state.modalInsertar}>
