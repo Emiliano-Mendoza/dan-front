@@ -190,25 +190,29 @@ export default class CreatePedido extends Component {
                                     <p><b>Descripcion de obra:</b> {obra.descripcion}</p>
 
                                     {this.state.ventanaNuevoPedido && obra.id === this.state.idLi ?
-                                        <>
-                                            <h6>Nuevo Pedido:</h6>
+                                        <div className="col-md-6 div-nuevo-pedido div-gray">
+                                            <h4>Nuevo Pedido:</h4>
                                             <form onSubmit={this.addDetalle}>
-                                                <p>Productos: </p>
+                                                <h6>Productos: </h6>
                                                 <select id="selector" name="producto" onChange={this.selectProducto}>
 
                                                     {this.state.productos.map(prod => (
                                                         <option value={prod.id} key={prod.id}>{prod.nombre}</option>
                                                     ))}
                                                 </select>
+                                                <p></p>
                                                 <div className="form-group">
                                                     <h6>Cantidad: </h6>
-                                                    <input type="number" min="1" className="form-control input-cantidad" name="cantidad" value={this.state.detallePed.cantidad} onChange={this.detalleHandleChange} />
+                                                    <input type="number" min="1" className="form-control" name="cantidad" value={this.state.detallePed.cantidad} onChange={this.detalleHandleChange} />
                                                 </div>
                                                 <div className="form-group">
-                                                    <h6>Precio: </h6>
-                                                    <p>{this.state.detallePed.producto.precio}</p>
-                                                    <h6>Total: </h6>
-                                                    <p>{this.state.detallePed.cantidad * this.state.detallePed.producto.precio}</p>
+                                                    <p></p>
+                                                    <h6 style={{display: 'inline' }}>Precio: </h6>
+                                                    <p style={{display: 'inline' }}>{this.state.detallePed.producto.precio}</p>
+                                                    <p></p>
+                                                    <h6 style={{display: 'inline' }}>Total: </h6>
+                                                    <p style={{display: 'inline' }}>{this.state.detallePed.cantidad * this.state.detallePed.producto.precio}</p>
+                                                    <p></p>
                                                 </div>
                                                 <div className="form-group">
                                                     <h6>Fecha: </h6>
@@ -220,7 +224,7 @@ export default class CreatePedido extends Component {
                                                 </button>
                                             </form>
 
-                                        </> : null}
+                                        </div> : null}
 
                                     {this.state.ventanaVerPedidos && obra.id === this.state.idLi ?
                                         <>
@@ -258,7 +262,7 @@ export default class CreatePedido extends Component {
 
                                         <>
                                             <button type="button" className="deletebtn btn btn-danger" onClick={() => this.cancelarNuevoPedido()}>Cancelar</button>
-                                            <button type="button" className="deletebtn btn btn-primary" onClick={() => this.enviarPedido()}>Confirmar</button>
+                                            <button type="button" className="deletebtn btn btn-primary" onClick={() =>{if (window.confirm('Está seguro que desea realizar este pedido?')) this.enviarPedido()}}>Confirmar</button>
                                         </> :
                                         <>
                                             {this.state.ventanaVerPedidos && obra.id === this.state.idLi ? <>

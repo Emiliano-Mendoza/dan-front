@@ -1,3 +1,8 @@
+body {
+  background-image: url("checkerboard-cross.png");
+ }
+
+
 .deletebtn {
     float: right; 
     font-size: 12px;
@@ -86,7 +91,11 @@ p{
   margin-top: 10px;
   
 }
-
+.div-nuevo-pedido{
+  margin: auto;
+  padding: 30px;
+  background-color:#F0F0F0;
+}
 .div-cen{
   margin: auto;
 }
@@ -106,3 +115,4 @@ button[disabled]{
   background-color: #cccccc;
   color: #666666;
 }
+
