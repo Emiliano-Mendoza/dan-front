@@ -28,7 +28,7 @@ export default class AddObraUsuario extends Component {
             razonSocial: '',
             cuit: '',
             mail: '',
-            maxCuentaCorriente: 5000,
+            maxCuentaCorriente: '',
         },
         editButton: false,
 

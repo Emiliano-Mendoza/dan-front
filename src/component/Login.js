@@ -36,7 +36,7 @@ export default class Login extends Component {
                 cookies.set('username', respuesta.user, { path: "/" });
 
                 alert(`Bienvenido ${respuesta.user}`);
-                window.location.href = "./client";
+                window.location.href = "./perfil-usuario";
             } else {
                 alert('El usuario o la contraseña no son correctos');
             }
@@ -49,7 +49,7 @@ export default class Login extends Component {
 
     componentDidMount() {
         if(cookies.get('id')){
-            window.location.href="./client";
+            window.location.href="./perfil-usuario";
         }
     }
 
